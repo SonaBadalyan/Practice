@@ -1,3 +1,10 @@
+/*
+** Worst-case performance	    О(n2) comparisons and swaps
+** Best-case performance	    O(n) comparisons, O(1) swaps
+** Average performance	        О(n2) comparisons and swaps
+** Worst-case space complexity	О(n) total, O(1) auxiliary
+*/
+
 #include <iostream>
 
 void fill(int arr[], const int SIZE)
@@ -26,21 +33,12 @@ void swap(int &value1, int &value2)
 
 void insertion_sort(int arr[], const int SIZE)
 {
-    for (int i = 1; i < SIZE; ++i)
-    {
-        int k = i;
-        int j = i - 1;
-            
-        while (k != 0)
-        {
-            if (arr[k] < arr[j])
-                swap(arr[k], arr[j]);
-            k = j;
-            --j;
-        }
-    }
-
+    for (int i = 1; i < SIZE; ++i) 
+        for (int j = i; j != 0; --j)
+            if (arr[j - 1] > arr[j])
+                swap(arr[j -1], arr[j]);
 }
+
 int main()
 {
     const int SIZE = 10;
