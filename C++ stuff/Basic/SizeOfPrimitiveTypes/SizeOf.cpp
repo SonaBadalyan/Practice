@@ -1,5 +1,7 @@
 #include <iostream>
 
+class A{};
+
 int main()
 {
     std::cout << "\t\t Size of primitive built-in types for x86_64 (this) architecture." << std::endl;
@@ -64,6 +66,9 @@ int main()
     std::cout << std::endl;
 
     std::cout << "Size of void* type is " << sizeof(void*) << " byte." << std::endl; // 8 byte
+    std::cout << std::endl;
+
+    std::cout << "\t Size of empty class is " << sizeof(A) << " byte. It is done for addressing the object of an empty class. " << std::endl; // 1 byte
     std::cout << std::endl;
 
     return 0;
