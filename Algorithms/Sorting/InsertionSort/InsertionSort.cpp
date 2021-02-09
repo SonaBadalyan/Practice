@@ -12,7 +12,7 @@ void fill(int arr[], const int SIZE)
     srand(time(0));
 
     for (int i = 0; i < SIZE; ++i)
-        arr[i] = rand() % 1000;
+        arr[i] = rand() % 100;
 
 }
 
