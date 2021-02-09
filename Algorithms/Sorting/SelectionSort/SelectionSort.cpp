@@ -27,11 +27,10 @@ void selection_sort(int arr[], const int SIZE)
                 min = j;
 
         }
+
         if (min != i)
             swap(arr[i], arr[min]);
     } 
-
-
 }
 
 int main()
@@ -42,7 +41,7 @@ int main()
     srand(time(0));
 
     for (size_t i = 0; i < SIZE; ++i)
-        arr[i] = rand() % 100;
+        arr[i] = rand() % 1000;
 
     std::cout << "Before sorting." << std::endl;
     for (size_t i = 0; i < SIZE; ++i)
