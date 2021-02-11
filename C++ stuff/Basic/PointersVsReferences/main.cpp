@@ -13,6 +13,8 @@ int main()
     int *pi = &i;
     int &ri = i; 
 
+    std::cout << &pi << std::endl;
+
     ++i;
     std::cout << i << " " << ri << " " << *pi << std::endl; // 11 11 11
     std::cout << &i << " " << &ri << " " << pi <<  std::endl; // 0x7ffe65daf1a4 0x7ffe65daf1a4 0x7ffe65daf1a4
