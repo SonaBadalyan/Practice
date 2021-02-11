@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/sona/Desktop/Practice/Design Patterns/Creational/Singleton/Client.cpp
+iostream
+-
+thread
+-
+Singleton.hpp
+/home/sona/Desktop/Practice/Design Patterns/Creational/Singleton/Singleton.hpp
+
+/home/sona/Desktop/Practice/Design Patterns/Creational/Singleton/Singleton.hpp
+string
+-
+mutex
+-
+
