@@ -5,16 +5,23 @@
 
 int main()
 {
-    std::thread thread1([](){ 
-        Singleton* singleton = Singleton::get_instance("singleton");
-        std::cout << singleton->get_name() << std::endl;
+    Singleton* singleton;
+
+    std::thread thread1([&singleton](){ 
+        singleton = Singleton::get_instance("singleton");
+        
         });
    
-    std::thread thread2([](){
-        Singleton* singleton1 = Singleton::get_instance("singleton1");
-        std::cout << singleton1->get_name() << std::endl;
+    std::thread thread2([&singleton](){
+        singleton = Singleton::get_instance("singleton1");
+        
     });
     
+    thread1.join();
+    thread2.join();
+    
+    std::cout << singleton->get_name() << std::endl;
+    singleton->delete_instance();
 
     return 0;
 }
