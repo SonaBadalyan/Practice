@@ -39,5 +39,8 @@ int main()
     
     std::cout << sizeof(class Test) << std::endl;
 
+    std::cout << sizeof(pi) << "  " << sizeof(&ri) << std::endl;
+
+
     return 0;
 }
