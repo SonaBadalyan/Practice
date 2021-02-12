@@ -13,8 +13,6 @@ int main()
     int *pi = &i;
     int &ri = i; 
 
-    std::cout << &pi << std::endl;
-
     ++i;
     std::cout << i << " " << ri << " " << *pi << std::endl; // 11 11 11
     std::cout << &i << " " << &ri << " " << pi <<  std::endl; // 0x7ffe65daf1a4 0x7ffe65daf1a4 0x7ffe65daf1a4
@@ -39,9 +37,19 @@ int main()
     std::cout << i << " " << ri << " " << *pi << std::endl; // 22 22 22
     std::cout << &i << " " << &ri << " " << pi <<  std::endl; // 0x7ffe65daf1a4 0x7ffe65daf1a4 0x7ffe65daf1a4
     
+
+    int j = 100;
+    ri = j;
+    std::cout << i << " " << ri << " " << *pi << std::endl; // 100 100 100
+    std::cout << &i << " " << &ri << " " << pi <<  std::endl; // 0x7ffe65daf1a4 0x7ffe65daf1a4 0x7ffe65daf1a4
+    
+    std::cout << j << " " << &j << std::endl; // 100 0x7ffe65daf1a8
+
     std::cout << sizeof(class Test) << std::endl; // 24 byte ( 8 + 8 + 8 )
 
     std::cout << sizeof(pi) << "  " << sizeof(&ri) << std::endl; // 8  8
+
+    std::cout << "And as a conclusion, reference behave like const pointer to object. It has a location in the memory, it takes a size equal to pointer size." << std::endl;
 
     return 0;
 }
