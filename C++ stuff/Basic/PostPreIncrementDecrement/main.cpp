@@ -20,8 +20,8 @@ int main()
 {
     Integer integer(0);
     foo(++integer);
-    foo(integer++); //error: initial value of reference to non-const must be an lvalue, cannot bind non-const lvalue reference of type ‘Integer&’ to an rvalue of type ‘Integer’, when void foo(Integer &i)
+    foo(integer++); //error durig call void foo(Integer &i) function: initial value of reference to non-const must be an lvalue, cannot bind non-const lvalue reference of type ‘Integer&’ to an rvalue of type ‘Integer’, when void foo(Integer &i)
     foo(--integer);
-    foo(integer--); //error: initial value of reference to non-const must be an lvalue, cannot bind non-const lvalue reference of type ‘Integer&’ to an rvalue of type ‘Integer’, when void foo(Integer &i)
+    foo(integer--); //error durig call void foo(Integer &i) function: initial value of reference to non-const must be an lvalue, cannot bind non-const lvalue reference of type ‘Integer&’ to an rvalue of type ‘Integer’, when void foo(Integer &i)
     return 0;
 }

@@ -18,4 +18,6 @@ void Singleton::delete_instance()
     std::unique_lock<std::mutex> lock(Singleton::mutex);
     if (singleton != nullptr)
         delete singleton;
+
+    singleton = nullptr;
 }
