@@ -70,7 +70,11 @@ int main()
     std::cout << "Let's try conversions using bool type." << std::endl;
 
     b = ch;
-    std::cout << b << std::endl;
+    b = i;
+    b = d;
+    b = f;
+    b = vp;
+    b = &udt;
 
     return 0;
 }
