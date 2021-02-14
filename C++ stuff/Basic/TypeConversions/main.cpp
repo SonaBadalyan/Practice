@@ -41,7 +41,7 @@ int main()
     vp = &f;
 
     vp = new int[10];
-    delete vp; // deleting ‘void*’ is undefined [-Wdelete-incomplete]
+    //delete vp; // deleting ‘void*’ is undefined [-Wdelete-incomplete]
 
     vp = nullptr;
 
@@ -68,6 +68,9 @@ int main()
     // (udt.*pv)(2); // WTF my compiler doesn't create a function pointer to a member function
 
     std::cout << "Let's try conversions using bool type." << std::endl;
+
+    b = ch;
+    std::cout << b << std::endl;
 
     return 0;
 }
