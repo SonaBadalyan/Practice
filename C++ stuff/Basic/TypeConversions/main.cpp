@@ -79,8 +79,35 @@ int main()
     b = -1;
     b = 0.2;
     b = "String";
+    b = 1 + 1.0;
     //b = nullptr; // error :  a value of type "std::nullptr_t" cannot be assigned to an entity of type "bool", converting to ‘bool’ from ‘std::nullptr_t’ requires direct-initialization [-fpermissive]
 
+    std::cout << "Let's try conversions using char type." << std::endl;
+
+    ch = b;
+    ch = i;
+    ch = d;
+    ch = f;
+    //ch = &udt; // error: a value of type "UDT *" cannot be assigned to an entity of type "char"
+    //ch = vp; // error: a value of type "void *" cannot be assigned to an entity of type "char"
+    ch = 10;
+    ch = 10 + 'a';
+    ch = 2.34;
+    ch = -2;
+    //ch = "String"; // error: a value of type "const char *" cannot be assigned to an entity of type "char"
+
+    std::cout << "Let's try conversions using integer type." << std::endl;
+
+    i = b;
+    i = ch;
+    i = d;
+    i = f;
+    //i = vp; // error: a value of type "void *" cannot be assigned to an entity of type "int"
+    i = -10 - 20.90;
+    //i = "A"; // error: a value of type "const char *" cannot be assigned to an entity of type "int"
+    i = 'A';
+
+    std::cout << "Let's try conversions using floating point type." << std::endl;
 
     return 0;
 }
