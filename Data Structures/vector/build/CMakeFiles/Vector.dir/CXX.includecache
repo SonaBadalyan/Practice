@@ -1,0 +1,16 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/sona/Desktop/Practice/Data Structures/vector/Vector.hpp
+
+/home/sona/Desktop/Practice/Data Structures/vector/main.cpp
+iostream
+-
+Vector.hpp
+/home/sona/Desktop/Practice/Data Structures/vector/Vector.hpp
+

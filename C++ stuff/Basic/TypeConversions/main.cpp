@@ -17,11 +17,11 @@ static void foo(int i)
 
 int main()
 {
-    std::cout << "Trying to cover all possible conversion cases in C ++." << std::endl;
+    std::cout << "\t Trying to cover all possible conversion cases in C ++.\n" << std::endl;
 
-    std::cout << "Implicit (automatic) conversions done by the compiler on its own automatically, when we use an object of one type where an object of another type is expected. " << std::endl;
+    std::cout << "Implicit (automatic) conversions done by the compiler on its own automatically, when we use an object of one type where an object of another type is expected.\n " << std::endl;
 
-    std::cout << "Let's try conversions using void type. Because void itself is an incomplete type, we can try conversions to void pointer." << std::endl;
+    std::cout << "Let's try conversions using void type. Because void itself is an incomplete type, we can try conversions to void pointer.\n" << std::endl;
 
     void* vp;
 
@@ -75,6 +75,12 @@ int main()
     b = f;
     b = vp;
     b = &udt;
+    b = 'A';
+    b = -1;
+    b = 0.2;
+    b = "String";
+    //b = nullptr; // error :  a value of type "std::nullptr_t" cannot be assigned to an entity of type "bool", converting to ‘bool’ from ‘std::nullptr_t’ requires direct-initialization [-fpermissive]
+
 
     return 0;
 }
