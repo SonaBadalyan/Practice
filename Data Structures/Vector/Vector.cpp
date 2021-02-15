@@ -48,7 +48,7 @@ void Vector<T>::insert(T elem, size_t index)
 }
 
 template <typename T>
-T Vector<T>::get(size_t index)
+T Vector<T>::get(size_t index) const
 {
     if (index < m_index)
         return m_array[index];
@@ -63,19 +63,19 @@ void Vector<T>::pop()
 }
         
 template <typename T>
-size_t Vector<T>::size()
+size_t Vector<T>::size() const 
 {
     return m_index;
 }
 
 template <typename T>
-size_t Vector<T>::get_capacity()
+size_t Vector<T>::get_capacity() const
 {
     return m_capacity;
 }
 
 template <typename T>
-void Vector<T>::print()
+void Vector<T>::print() const 
 {
     for(size_t i = 0; i < m_index; ++i)
         std::cout << m_array[i] << " ";
@@ -99,4 +99,5 @@ void Vector<T>::reserve(size_t how_many_times)
 //If you put a template implementation into a .cpp file you need to make sure that it gets instantiated: the compiler won't do it automatically for you.
 // Explicitly instantiate only the classes you want to be defined.
 template class Vector<int>;
+
 
