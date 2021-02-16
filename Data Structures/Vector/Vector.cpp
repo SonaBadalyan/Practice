@@ -7,9 +7,7 @@ Vector<T>::Vector()
                 :   m_capacity(1),   
                     m_index(0),
                     buffer(new T[m_capacity]) 
-{
-    
-}
+{}
 
 template<typename T>
 Vector<T>::Vector(T fill_elems, size_t size) 
@@ -210,18 +208,18 @@ void Vector<T>::print() const
 }
 
 template <typename T>
-void Vector<T>::reserve(size_t size)
+void Vector<T>::reserve(size_t capacity)
 {
-    if (size < m_capacity)
+    if (capacity < m_capacity)
         throw std::logic_error("WTF");
 
-    T *temp_array = new T[size];
+    T *temp_array = new T[capacity];
 
     for (size_t i = 0; i < m_capacity; ++i)
         temp_array[i] = buffer[i];
 
     delete[] buffer;
-    m_capacity = size;
+    m_capacity = capacity;
     buffer = temp_array;
 }
 
@@ -240,15 +238,10 @@ typename Vector<T>::Iterator Vector<T>::end() const
 template <typename T>
 Vector<T>::~Vector()
 {
-    delete[] buffer;
     m_capacity = 0;
     m_index = 0;
+    delete[] buffer;
 }
-
-// Iterator& Vector:Iterator::operator++()
-// {
-
-// }
 
 //If you put a template implementation into a .cpp file you need to make sure that it gets instantiated: the compiler won't do it automatically for you.
 // Explicitly instantiate only the classes you want to be defined.

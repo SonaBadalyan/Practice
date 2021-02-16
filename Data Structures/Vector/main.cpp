@@ -79,5 +79,9 @@ int main()
     std::cout << "v.front(): " << v.front() << std::endl;
     std::cout << "v.back(): " << v.back() << std::endl;
 
+    auto begin = v.begin();
+    auto end = v.end();
+
+
     return 0;
 }

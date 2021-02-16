@@ -12,7 +12,8 @@ class Vector
                 Iterator(const Vector<T> *vector, size_t iter_Intex) 
                                                                     :   m_pVector(vector), 
                                                                         m_iter_Intex(iter_Intex)
-                {}
+                {
+                }
                 Iterator(const Iterator& rhs) 
                                             :   m_pVector(rhs.m_pVector),
                                                 m_iter_Intex(rhs.m_iter_Intex)
@@ -33,9 +34,10 @@ class Vector
                 bool operator<=(const Iterator& rhs) const;
                 bool operator>(const Iterator& rhs) const;
                 bool operator>=(const Iterator& rhs) const;
+                //~Iterator();
                 
             private:
-                const Vector<T> *m_pVector;
+                const Vector<T> *m_pVector = nullptr;
                 size_t m_iter_Intex = -1;
         };
 
