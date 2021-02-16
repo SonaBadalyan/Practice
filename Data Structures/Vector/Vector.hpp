@@ -74,9 +74,9 @@ class Vector
         ~Vector();
 
     private:
-        T *buffer = nullptr;
-        size_t m_index = -1;
         size_t m_capacity = 0;
+        size_t m_index = -1;
+        T *buffer = nullptr;   
 };
 
 #endif // VECTOR_H

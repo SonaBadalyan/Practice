@@ -7,7 +7,9 @@ Vector<T>::Vector()
                 :   m_capacity(1),   
                     m_index(0),
                     buffer(new T[m_capacity]) 
-{}
+{
+    
+}
 
 template<typename T>
 Vector<T>::Vector(T fill_elems, size_t size) 
@@ -153,7 +155,7 @@ void Vector<T>::pop()
 template <typename T>
 const T& Vector<T>::at(size_t index) const
 {
-    if (index < -1 || index >= m_index)
+    if (index < 0 || index >= m_index)
         throw std::logic_error("WTF");
     
     return buffer[index];
