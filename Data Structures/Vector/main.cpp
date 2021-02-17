@@ -1,5 +1,5 @@
 #include <iostream>
-#include "Vector.cpp"
+#include "Vector.hpp"
 
 int main()
 {
@@ -82,6 +82,13 @@ int main()
     auto begin = v.begin();
     auto end = v.end();
 
+    for (auto const& elem : v)
+        std::cout << elem << " ";
+    std::cout << std::endl;
+
+    for (auto iter = v.begin(); iter != v.end(); iter++)
+            std::cout << *iter << " ";
+    std::cout << std::endl;
 
     return 0;
 }
