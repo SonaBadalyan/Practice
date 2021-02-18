@@ -1,10 +1,9 @@
 #include <iostream>
 #include <string>
 
-typedef int Cable; // wire with electrons :-)
+typedef int Cable;
 
-/* Adaptee (source) interface */
-class EuropeanSocketInterface
+class EuropeanSocket
 {
     public:
         virtual int voltage() = 0;
@@ -14,8 +13,7 @@ class EuropeanSocketInterface
         virtual Cable earth() = 0;
 };
 
-/* Adaptee */
-class Socket : public EuropeanSocketInterface
+class Socket : public EuropeanSocket
 {
     public:
         int voltage() { return 230; }
@@ -25,8 +23,7 @@ class Socket : public EuropeanSocketInterface
         Cable earth() { return 0; }
 };
 
-/* Target interface */
-class USASocketInterface
+class USASocket
 {
     public:
         virtual int voltage() = 0;
@@ -35,14 +32,13 @@ class USASocketInterface
         virtual Cable neutral() = 0;
 };
 
-/* The Adapter */
-class Adapter : public USASocketInterface
+class Adapter : public USASocket
 {
     private:
-        EuropeanSocketInterface* socket;
+        EuropeanSocket* socket;
 
     public:
-        void plugIn(EuropeanSocketInterface* outlet)
+        void plugIn(EuropeanSocket* outlet)
         {
             socket = outlet;
         }
@@ -52,14 +48,13 @@ class Adapter : public USASocketInterface
         Cable neutral() { return socket->neutral(); }
 };
 
-/* Client */
 class ElectricKettle
 {
     private:
-        USASocketInterface* power;
+        USASocket* power;
 
     public:
-        void plugIn(USASocketInterface* supply)
+        void plugIn(USASocket* supply)
         {
             power = supply;
         }
@@ -86,12 +81,14 @@ int main()
     Adapter* adapter = new Adapter;
     ElectricKettle* kettle = new ElectricKettle;
 
-    /* Pluging in. */
     adapter->plugIn(socket);
     kettle->plugIn(adapter);
 
-    /* Having coffee */
     kettle->boil();
+
+    delete socket;
+    delete adapter;
+    delete kettle;
 
     return 0;
 }
