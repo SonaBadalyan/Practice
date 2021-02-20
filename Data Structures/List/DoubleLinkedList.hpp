@@ -11,7 +11,6 @@ class DoubleLinkedList
 
     typedef T value_type;
     typedef size_t size_type;
-    typedef T* pointer;
     typedef value_type& reference;
     typedef const value_type& const_reference;
 
@@ -21,36 +20,6 @@ class DoubleLinkedList
         Node *prev = nullptr;
         Node *next = nullptr;
     };
-
-    class Iterator
-    {
-        public:
-            Iterator() = delete;
-            Iterator(value_type elem);
-            Iterator(const Iterator& rhs);
-            Iterator& operator=(const Iterator& rhs);
-
-            Iterator& operator++(); 
-            Iterator operator++(int); 
-            Iterator& operator--(); 
-            Iterator operator--(int); 
-
-            const T& operator*() const;
-
-            bool operator==(const Iterator& rhs) const;
-            bool operator!=(const Iterator& rhs) const;
-            bool operator<(const Iterator& rhs) const;
-            bool operator<=(const Iterator& rhs) const;
-            bool operator>(const Iterator& rhs) const;
-            bool operator>=(const Iterator& rhs) const;
-                            
-        private:
-
-            pointer m_elem = nullptr;
-    };
-
-    typedef Iterator iterator;
-    typedef const Iterator const_iterator;
     
     DoubleLinkedList() : head (nullptr), tail (nullptr) {}
     
@@ -187,35 +156,14 @@ class DoubleLinkedList
         return *this;
     }
 
-    // iterator begin()
-    // {
-    //     return iterator(head);
-    // }
-    // const_iterator begin() const;
-    // const_iterator cbegin() const;
-
-    // iterator end();
-    // const_iterator end() const;
-    // const_iterator cend() const;
-
     reference front() 
     {
         return head->data;
     }
 
-    const_reference front() const 
-    {
-
-    }
-
     reference back()
     {
         return tail->data;
-    }
-
-    const_reference back() const
-    {
-
     }
 
     bool empty() const
@@ -239,20 +187,89 @@ class DoubleLinkedList
 
     void clear() noexcept
     {
+        Node *curr = head;
 
+        while ( curr != nullptr )
+        {
+            Node* next = curr->next;
+            delete curr;
+            curr = next;
+        }
+
+        head = tail = nullptr;
     }
 
-    iterator insert( iterator pos, const_reference value )
+    void insert( size_t pos, const_reference value )
     {
+        if ( 0 == pos )
+        {
+            push_front(value);
+            return;
+        }
+
+        if ( size() == pos )
+        {
+            push_back(value);
+            return;
+        }
+
+        Node *curr = head;
+        size_t  i = 0;
+
+        while ( curr->next != nullptr )
+        {
+            ++i;
+
+            if ( i == pos)
+            {
+                Node *new_node = new Node();
+                new_node->data = value;
+                new_node->prev = curr;
+                new_node->next = curr->next->next;
+                curr->next = new_node;
+                break;
+            }
+
+            curr = curr->next;
+        }
 
     }
 
-    iterator erase( iterator pos )
+    void erase( size_t pos )
     {
+        if ( 1 == pos )
+        {
+            pop_front();
+            return;
+        }
+
+        if ( size() == pos )
+        {
+            pop_back();
+            return;
+        }
+
+        Node *curr = head;
+        size_t  i = 0;
+
+        while ( curr->next != nullptr )
+        {
+            ++i;
+
+            if ( i == pos)
+            {
+                curr->prev->next = curr->next;
+                curr->next->prev = curr->prev;
+                delete curr;
+                break;
+            }
+
+            curr = curr->next;
+        }
 
     }
 
-    iterator erase( iterator first, iterator last )
+    void erase( size_t first, size_t last )
     {
 
     }
@@ -338,12 +355,37 @@ class DoubleLinkedList
 
     void resize( size_type count, value_type value = value_type() )
     {
+        size_t m_size = size();
 
+        if ( m_size == count ) return;
+
+        if ( m_size < count )
+        {
+            while ( m_size != count )
+            {
+                push_back(value);
+                ++m_size;
+            }
+        }
+        else 
+        {
+            while ( size() != count )
+            {
+                pop_back();
+                --m_size;
+            }
+        }
     }
 
-    void swap( DoubleLinkedList<value_type>& other )
+    void swap( DoubleLinkedList<value_type>& rhs )
     {
-
+        auto temp = head;
+        head = rhs.head;
+        rhs.head = temp;
+    
+        temp = tail;
+        tail = rhs.tail;
+        rhs.tail = tail;
     }
 
     void print () const
@@ -376,29 +418,5 @@ class DoubleLinkedList
         Node *head = nullptr;
         Node *tail = nullptr;
 };
-
-template< typename T >
-bool operator==( const DoubleLinkedList<T>& lhs,
-                 const DoubleLinkedList<T>& rhs );
-
-template< typename T >
-bool operator!=( const DoubleLinkedList<T>& lhs,
-                 const DoubleLinkedList<T>& rhs );
-
-template< typename T >
-bool operator<( const DoubleLinkedList<T>& lhs,
-                 const DoubleLinkedList<T>& rhs );
-
-template< typename T >
-bool operator<=( const DoubleLinkedList<T>& lhs,
-                 const DoubleLinkedList<T>& rhs );
-
-template< typename T >
-bool operator>( const DoubleLinkedList<T>& lhs,
-                 const DoubleLinkedList<T>& rhs );
-
-template< typename T >
-bool operator>=( const DoubleLinkedList<T>& lhs,
-                 const DoubleLinkedList<T>& rhs );
 
 #endif // DOUBLE_LINKED_LIST_H
