@@ -27,7 +27,7 @@ void heapify(int arr[], size_t n, size_t i)
     }
 }
  
-void heapSort(int arr[], size_t n)
+void heap_sort(int arr[], size_t n)
 {
     for ( size_t i = n / 2 - 1; i >= 0; --i )
         heapify(arr, n, i);
@@ -40,10 +40,11 @@ void heapSort(int arr[], size_t n)
     }
 }
  
-void printArray(int arr[], size_t n)
+void print_array(int arr[], size_t n)
 {
     for ( size_t i = 0; i < n; ++i )
         std::cout << arr[i] << " ";
+
     std::cout << std::endl;
 }
  
@@ -52,10 +53,10 @@ int main()
     int arr[] = { 12, 11, 13, 5, 6, 7 };
     size_t n = sizeof(arr) / sizeof(arr[0]);
  
-    heapSort(arr, n);
+    heap_sort(arr, n);
  
     std::cout << "Sorted array is \n";
-    printArray(arr, n);
+    print_array(arr, n);
 
     return 0;
 }
