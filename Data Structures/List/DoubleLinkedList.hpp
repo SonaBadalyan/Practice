@@ -269,11 +269,6 @@ class DoubleLinkedList
 
     }
 
-    void erase( size_t first, size_t last )
-    {
-
-    }
-
     void push_back( const_reference value )
     {
         if ( tail == nullptr )
