@@ -1,21 +1,22 @@
-#ifndef SONA_H
-#define SONA_H
+#ifndef BOB_H
+#define BOB_H
 
 #include "Customer.hpp"
 #include <string>
 
-class Sona : public Customer
+class Bob : public Customer
 {
-    public: 
+    public:
         virtual void accept(Visitor *visitor) const override
         {
-            visitor->visit_sona(this);
+            visitor->visit_bob(this);
         }
 
         const std::string get_name() const
         {
-            return "Sona";
+            return "Bob";
         }
+
 };
 
-#endif // SONA_H
+#endif // BOB_H

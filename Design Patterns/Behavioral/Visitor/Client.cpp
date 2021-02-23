@@ -3,8 +3,8 @@
 #include "Visitor.hpp"
 #include "Santa.hpp"
 #include "Grinch.hpp"
-#include "Sona.hpp"
-#include "Meruzhan.hpp"
+#include "Mary.hpp"
+#include "Bob.hpp"
 
 void client_code(std::vector<const Customer*> customers, Visitor *visitor)
 {
@@ -15,8 +15,8 @@ void client_code(std::vector<const Customer*> customers, Visitor *visitor)
 int main()
 {
     std::vector<const Customer*> customers;
-    customers.push_back(new Meruzhan);
-    customers.push_back(new Sona);
+    customers.push_back(new Bob);
+    customers.push_back(new Mary);
 
     Santa *santa = new Santa;
     client_code(customers, santa);

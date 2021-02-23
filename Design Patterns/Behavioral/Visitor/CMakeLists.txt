@@ -6,8 +6,8 @@ enable_testing()
 
 add_executable(Visitor Client.cpp
                         Customer.hpp
-                        Sona.hpp
-                        Meruzhan.hpp
+                        Mary.hpp
+                        Bob.hpp
                         Visitor.hpp
                         Grinch.hpp
                         Santa.hpp
