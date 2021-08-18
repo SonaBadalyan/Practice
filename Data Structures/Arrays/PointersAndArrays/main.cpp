@@ -43,5 +43,7 @@ int main()
     }
     std::cout <<std::endl;
 
+    // Random access is possible  by using this formula` Array base address (array name) + i (element position) * sizeof(element)
+    
     return 0;
 }
