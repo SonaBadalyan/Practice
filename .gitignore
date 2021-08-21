@@ -1,3 +1,6 @@
-/.vs
-/.vscode
-/build
+.vs
+.vscode
+build
+.project
+*.exe
+*.out
