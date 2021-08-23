@@ -45,7 +45,7 @@ class SingleLinkedList
                 return true;
             }
 
-            if(rhs.getLenght() != getLenght())
+            if(rhs.getLength() != getLength())
             {
                 return false;
             }
@@ -75,7 +75,7 @@ class SingleLinkedList
             return false;
         }
 
-        int getLenght() const
+        int getLength() const
         {
             if (isEmpty())
             {
@@ -96,7 +96,7 @@ class SingleLinkedList
 
         int operator[](int index)
         {
-            if (index <= 0 || index > getLenght())
+            if (index <= 0 || index > getLength())
             {
                 return -1;
             }
@@ -132,7 +132,7 @@ class SingleLinkedList
 
         void insert(int data, int index)
         {
-            if (index <= 0 || index > getLenght())
+            if (index <= 0 || index > getLength())
             {
                 return;
             }
@@ -189,7 +189,7 @@ class SingleLinkedList
 
         bool remove(int index)
         {
-            if (index <= 0 || index > getLenght())
+            if (index <= 0 || index > getLength())
             {
                 return false;
             }
@@ -235,15 +235,22 @@ class SingleLinkedList
                 return false;
             }
 
-            Node* curr = head;
-
-            while(curr->next)
+            if (1 == getLength())
             {
-                if ( curr->next->data == data)
+                head = nullptr;
+                return true;
+            }
+
+            Node* curr = head;
+            int index = 1;
+
+            while(curr)
+            {
+                if ( curr->data == data)
                 {
-                    curr->next = curr->next->next;
-                    return true;
+                    return remove(index);
                 }
+                ++index;
             }
 
             return false;
@@ -334,7 +341,7 @@ int main()
     list.reversePrint();
 
     std::cout << list.findByValue(9) << std::endl;
-    std::cout << list.getLenght() << std::endl;
+    std::cout << list.getLength() << std::endl;
 
     list.remove(3);
     list.print();
