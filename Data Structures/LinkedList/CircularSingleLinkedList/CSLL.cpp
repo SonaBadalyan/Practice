@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stack>
 
 class CSLL
 {
@@ -217,6 +218,27 @@ class CSLL
             std::cout << std::endl;
         }
 
+        void reverse(CSLL& list)
+        {
+            std::stack<int> s;
+
+            Node* curr = head;
+
+            while(curr->next != head)
+            {
+                s.push(curr->data);
+                curr = curr->next;
+            }
+
+            s.push(curr->data);
+
+            while(!s.empty())
+            {
+                list.insertBack(s.top());
+                s.pop();
+            }
+        }
+
     private:
         Node* head = nullptr;
 
@@ -234,8 +256,9 @@ int main()
     list.insertBack(45);
     list.print();
 
-    list.reverse();
-    list.print();
+    CSLL list1;
+    list.reverse(list1);
+    list1.print();
 
     list.removeBack();
     list.print();
