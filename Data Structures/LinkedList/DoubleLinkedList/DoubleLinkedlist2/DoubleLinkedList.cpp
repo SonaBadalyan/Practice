@@ -318,7 +318,6 @@ class DoubleLikedList
             
             Node* curr = head;
             Node* next;
-            Node* tail;
 
             while(curr)
             {
