@@ -44,11 +44,13 @@ class Person
         Person& operator=(const Person& rhs) // may be compiler generated, it is not mandatory to return Person& and to have const Person& argument, we may have any return type and argumnet list
         {
             std::cout << "operator= " << this << std::endl;
+            return *this;
         }
 
         Person& operator=(Person&& rhs) // may be compiler generated
         {
             std::cout << "move operator= " << this << std::endl;
+            return *this;
         }
 
         ~Person() // may be compiler generated, it must have one definition per class
