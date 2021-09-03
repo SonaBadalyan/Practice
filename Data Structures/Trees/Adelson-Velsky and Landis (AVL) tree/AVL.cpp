@@ -55,8 +55,8 @@ class AVL
                 {
                     temp->left = new Node(val);
                     temp->left->parent = temp;
-                    
 
+                    checkBalance(temp->left);
                 }
                 else
                 {
@@ -71,6 +71,7 @@ class AVL
                     temp->right = new Node(val);
                     temp->right->parent = temp;
                     
+                    checkBalance(temp->right);
                 }   
                 else
                 {
@@ -80,7 +81,41 @@ class AVL
             }
         }
 
+        void checkBalance(Node* leaf)
+        {
+            auto const& result = findCriticalNode(leaf);
 
+            int banalceFactor = result.first;
+            Node* criticalNode = result.second;
+
+            while (criticalNode && (banalceFactor <-1 || banalceFactor > 1))
+            {
+                balance(std::make_pair(banalceFactor, criticalNode));
+                auto const& result = findCriticalNode(leaf);
+
+                banalceFactor = result.first;
+                criticalNode = result.second;
+            }
+        }
+
+        std::pair<int, Node*> findCriticalNode(Node* temp)
+        {
+            std::pair<int, Node*> result;
+
+            while (temp != root)
+            {
+                result = isBalanced(temp);
+
+                if ((result.first < -1 || result.first > 1) && result.second)
+                {
+                    return result;
+                }
+
+                temp = temp->parent;
+            }
+
+            return std::make_pair(0, nullptr);
+        }
 
         std::pair<int, Node*> isBalanced(Node* startNode)
         {
@@ -141,7 +176,7 @@ class AVL
                 }  
             }
 
-            return std::make_pair(balanceFactor, startNode);;
+            return std::make_pair(balanceFactor, startNode);
         }
 
         int height(Node* startNode)
@@ -180,54 +215,70 @@ class AVL
 
         void balance(std::pair<int, Node*> pair)
         {
-            if (pair.first > 1 && pair.second->data > pair.second->left->data) 
+            int balanceFactor = pair.first;
+            Node* criticalNode = pair.second;
+
+            if ( balanceFactor > 1 && criticalNode->data > criticalNode->left->data) 
             {
-                rightRotate(pair.second);
+                rightRotate(criticalNode);
                 return;
             }
 
-            if (pair.first < -1 && pair.second->data > pair.second->right->data) 
+            if ( balanceFactor > 1 && criticalNode->data < criticalNode->left->data) 
             {
-                leftRotate(pair.second);
+                criticalNode->left = leftRotate(criticalNode->left);
+                rightRotate(criticalNode);
                 return;
             }
 
-            if (pair.first > 1 && pair.second->data <  pair.second->left->data) 
+            if ( balanceFactor < -1 && criticalNode->data > criticalNode->right->data) 
             {
-                pair.second->left = leftRotate(pair.second->left);
-                rightRotate(pair.second);
+                leftRotate(criticalNode);
                 return;
             }
 
-            if (pair.first < -1 && pair.second->data < pair.second->right->data) 
+            if ( balanceFactor < -1 && criticalNode->data < criticalNode->right->data) 
             {
-                pair.second->right = rightRotate(pair.second->right);
-                leftRotate(pair.second);
+                criticalNode->right = rightRotate(criticalNode->right);
+                leftRotate(criticalNode);
                 return;
             }
         }
 
-    Node* rightRotate(Node* maximum) 
-    {
-        maximum->parent->left = maximum->left;
-        maximum->left->right = maximum;
-        maximum->right = nullptr;
-        maximum->left = nullptr;
+        Node* rightRotate(Node* maximum) 
+        {
+            Node* mid = maximum->left;
 
-        return maximum;
-	}
+            maximum->parent->left = mid;
+            mid->parent = maximum->parent;
 
-	Node* leftRotate(Node* minimum) 
-    {
-		minimum->parent->right = minimum->right;
-        minimum->right->left = minimum;
-        minimum->right = nullptr;
-        minimum->left = nullptr;
+            mid->right = maximum;
+            maximum->parent = mid;
 
-		return minimum;
-	}
+            maximum->right = nullptr;
+            maximum->left = nullptr;
+
+            return mid;
+        }
+
+        Node* leftRotate(Node* minimum) 
+        {
+            Node* mid = minimum->right;
+
+            minimum->parent->right = mid;
+            mid->parent = minimum->parent;
+
+            mid->left = minimum;
+            minimum->parent = mid;
+
+            minimum->right = nullptr;
+            minimum->left = nullptr;
+
+            return mid;
+        }
 
     private:
+
         Node* root = nullptr;
 };
 
