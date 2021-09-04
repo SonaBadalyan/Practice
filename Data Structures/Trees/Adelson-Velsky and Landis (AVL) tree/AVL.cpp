@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 
 class AVL
 {
@@ -218,63 +219,176 @@ class AVL
             int balanceFactor = pair.first;
             Node* criticalNode = pair.second;
 
-            if ( balanceFactor > 1 && criticalNode->data > criticalNode->left->data) 
-            {
-                rightRotate(criticalNode);
-                return;
+            if ( balanceFactor > 1) 
+            {    
+                bool isLR;
+
+                std::vector<Node*> path = findLongestPath(criticalNode);
+
+                int size = path.size();
+
+                if (path[size - 2] == criticalNode->left &&
+                    path[size - 3] == criticalNode->left->right)
+                {
+                    isLR = true;
+                }
+
+
+                if (path[size - 2] == criticalNode->left && 
+                    path[size - 3] == criticalNode->left->left)
+                {
+                    isLR = false;
+                }
+
+                if (!isLR)  
+                {       
+                    rightRotate(criticalNode);
+                    return;
+                }
+                else
+                {
+                    criticalNode->left = leftRotate(criticalNode->left);
+                    rightRotate(criticalNode);
+                    return;
+                }
             }
 
-            if ( balanceFactor > 1 && criticalNode->data < criticalNode->left->data) 
+            if ( balanceFactor < -1) 
             {
-                criticalNode->left = leftRotate(criticalNode->left);
-                rightRotate(criticalNode);
-                return;
-            }
+                bool isRL;
 
-            if ( balanceFactor < -1 && criticalNode->data > criticalNode->right->data) 
-            {
-                leftRotate(criticalNode);
-                return;
-            }
+                std::vector<Node*> path = findLongestPath(criticalNode);
 
-            if ( balanceFactor < -1 && criticalNode->data < criticalNode->right->data) 
-            {
-                criticalNode->right = rightRotate(criticalNode->right);
-                leftRotate(criticalNode);
-                return;
+                int size = path.size();
+
+                if (path[size - 2] == criticalNode->right &&
+                    path[size - 3] == criticalNode->right->left)
+                {
+                    isRL = true;
+                }
+
+
+                if (path[size - 2] == criticalNode->right &&
+                    path[size - 3] == criticalNode->right->right)
+                {
+                    isRL = false;
+                }
+
+                if (!isRL)
+                {
+                    leftRotate(criticalNode);
+                    return;
+                }
+                else
+                {
+                    criticalNode->right = rightRotate(criticalNode->right);
+                    leftRotate(criticalNode);
+                    return;
+                } 
             }
         }
 
-        Node* rightRotate(Node* maximum) 
+        Node* rightRotate(Node* y) 
         {
-            Node* mid = maximum->left;
+            Node* x = y->left;
 
-            maximum->parent->left = mid;
-            mid->parent = maximum->parent;
+            y->left = x->right;
 
-            mid->right = maximum;
-            maximum->parent = mid;
+            if(x->right)
+            {
+                x->right->parent = y;
+            }
 
-            maximum->right = nullptr;
-            maximum->left = nullptr;
+            x->parent = y->parent;
 
-            return mid;
+            if (!y->parent)
+            {
+                root = x;
+            }
+            else if( y == y->parent->right)
+            {
+                y->parent->right = x;
+            }
+            else
+            {
+                y->parent->left = x;
+            }
+
+            x->right = y;
+            y->parent = x;
+
+            return x;
         }
 
-        Node* leftRotate(Node* minimum) 
+        Node* leftRotate(Node* x) 
         {
-            Node* mid = minimum->right;
+            Node* y = x->right;
 
-            minimum->parent->right = mid;
-            mid->parent = minimum->parent;
+            x->right = y->left;
 
-            mid->left = minimum;
-            minimum->parent = mid;
+            if(y->left)
+            {
+                y->left->parent = x;
+            }
 
-            minimum->right = nullptr;
-            minimum->left = nullptr;
+            y->parent = x->parent;
 
-            return mid;
+            if (!x ->parent)
+            {
+                root = y;
+            }
+            else if( x == x->parent->left)
+            {
+                x->parent->left = y;
+            }
+            else
+            {
+                 x->parent->right = y;
+            }
+
+            y->left = x;
+            x->parent = y;
+
+            return y;
+        }
+
+        std::vector<Node*> findLongestPath(Node* startNode)
+        {
+            std::vector<Node*> longestPath;
+            longestPath.clear();
+
+            std::vector<Node*> leftPath;
+            leftPath.clear();
+
+            std::vector<Node*> rightPath;
+            rightPath.clear();
+
+            if(!startNode)
+            {
+                return longestPath;
+            }
+
+            if(startNode->left)
+            {
+                leftPath.push_back(startNode->left);
+                leftPath = findLongestPath(startNode->left);
+            }
+            if(startNode->right)
+            {
+                rightPath.push_back(startNode->right);
+                rightPath = findLongestPath(startNode->right); 
+            }
+
+            if (leftPath.size() > rightPath.size())
+            {
+                leftPath.push_back(startNode);
+                return leftPath;
+            }
+            else
+            {
+                rightPath.push_back(startNode);
+                return rightPath;
+            }
         }
 
     private:
@@ -291,20 +405,7 @@ int main()
     tree.insert(11);
     tree.insert(7);
     tree.insert(53);
-
-    if(tree.isBalanced())
-    {
-        std::cout << "Tree is balanced!" << std::endl;
-    }
-    else
-    {
-        std::cout << "Tree is not balanced!" << std::endl;
-    }
-
-
     tree.insert(4);
-
-    
     tree.insert(13);
     tree.insert(12);
     tree.insert(8);
