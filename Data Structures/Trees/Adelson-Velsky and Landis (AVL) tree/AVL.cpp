@@ -25,6 +25,11 @@ class AVL
             return add(val, root);
         }
 
+        bool deleteNode(int val)
+        {
+            return deleteNode(val, root);
+        }
+
         bool isBalanced()
         {
             auto result = isBalanced(root);
@@ -391,6 +396,146 @@ class AVL
             }
         }
 
+        bool deleteNode(int val, Node* startNode)
+        {
+            Node* temp = find(startNode, val);
+
+            if (!temp)
+            {
+                return false;
+            }
+
+            if (!temp->left && !temp->right) 
+            {
+                if (!temp->parent)
+                {
+                    root = temp = nullptr;
+                    return true; 
+                }
+
+                if (temp->parent->data > val)
+                {
+                    temp->parent->left = nullptr;
+                    checkBalance(temp->parent);
+                    return true;
+                }
+                if (temp->parent->data < val)
+                {
+                    temp->parent->right = nullptr;
+                    checkBalance(temp->parent);
+                    return true;
+                } 
+            }
+
+            if (temp->left && !temp->right) 
+            {
+                if (temp->parent->left == temp)
+                {
+                    temp->parent->left = temp->left; 
+                    checkBalance(temp->parent);
+                    return true;
+                }
+                else if (temp->parent->right == temp)
+                {
+                    temp->parent->right = temp->left;
+                    checkBalance(temp->parent);
+                    return true;
+                }
+            }
+
+            if (!temp->left && temp->right)
+            {
+                if (temp->parent->left == temp)
+                {
+                    temp->parent->left = temp->right;
+                    checkBalance(temp->parent);
+                    return true;
+                }
+                else if (temp->parent->right == temp)
+                {
+                    temp->parent->right = temp->right;
+                    checkBalance(temp->parent);
+                    return true;
+                }
+            }
+
+            Node* maxElem = max(temp->left);
+
+            temp->data = maxElem->data;
+
+            if (maxElem->parent->left == maxElem)
+            {
+                maxElem->parent->left = nullptr;
+                checkBalance(maxElem->parent);
+                return true;
+            }
+            else if (maxElem->parent->right == maxElem)
+            {
+                maxElem->parent->right = nullptr;
+                checkBalance(maxElem->parent);
+                return true;
+            }
+
+            return false;
+        }
+
+        Node* max(Node* startNode)
+        {
+            Node* leftSubtreeMax;
+
+            if (!startNode->left)
+            {
+                leftSubtreeMax = startNode;
+            }
+            else
+            {
+                leftSubtreeMax = max( startNode->left );
+            }
+
+            Node* rightSubtreeMax;
+
+            if (!startNode->right)
+            {
+                rightSubtreeMax = startNode;
+            }
+            else
+            {
+                rightSubtreeMax = max( startNode->right );
+            }
+
+            if (leftSubtreeMax->data > rightSubtreeMax->data)
+            {
+                return leftSubtreeMax;
+            }
+            else
+            {
+                return rightSubtreeMax;
+            }
+        }
+
+        Node* find(Node* temp, int val)
+        {
+            if (temp == nullptr)
+            {
+                return nullptr;
+            }
+
+            if (temp->data == val)
+            {
+                return temp;
+            }
+            else if (temp->data > val)
+            {
+                return find(temp->left, val);
+            }
+            else if (temp->data < val)
+            {
+                return find(temp->right, val);
+            }
+
+            return nullptr;
+        }
+
     private:
 
         Node* root = nullptr;
@@ -413,6 +558,21 @@ int main()
     tree.insert(19);
     tree.insert(16);
     tree.insert(20);
+
+    if(tree.isBalanced())
+    {
+        std::cout << "Tree is balanced!" << std::endl;
+    }
+    else
+    {
+        std::cout << "Tree is not balanced!" << std::endl;
+    }
+
+    tree.deleteNode(8);
+    tree.deleteNode(7);
+    tree.deleteNode(11);
+    tree.deleteNode(14);
+    tree.deleteNode(17);
 
     if(tree.isBalanced())
     {
