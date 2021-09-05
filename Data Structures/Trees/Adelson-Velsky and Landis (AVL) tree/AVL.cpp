@@ -432,12 +432,14 @@ class AVL
                 if (temp->parent->left == temp)
                 {
                     temp->parent->left = temp->left; 
+                    temp->left->parent = temp->parent;
                     checkBalance(temp->parent);
                     return true;
                 }
                 else if (temp->parent->right == temp)
                 {
                     temp->parent->right = temp->left;
+                    temp->left->parent = temp->parent;
                     checkBalance(temp->parent);
                     return true;
                 }
@@ -448,12 +450,14 @@ class AVL
                 if (temp->parent->left == temp)
                 {
                     temp->parent->left = temp->right;
+                    temp->right->parent = temp->parent;
                     checkBalance(temp->parent);
                     return true;
                 }
                 else if (temp->parent->right == temp)
                 {
                     temp->parent->right = temp->right;
+                    temp->right->parent = temp->parent;
                     checkBalance(temp->parent);
                     return true;
                 }
