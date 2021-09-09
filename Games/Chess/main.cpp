@@ -15,6 +15,9 @@ int main()
             do
                 chess->draw();
             while (chess->doStep());
+
+            delete chess;
+            
             break;
         }
         case 'E':

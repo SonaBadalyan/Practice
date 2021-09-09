@@ -60,6 +60,9 @@ void Merge(int arr[], int left, int mid, int right)
         ++j;
         ++k;
     }
+
+    delete[] R;
+    delete[] L;
 }
 
 void MergeSort(int arr[], int left, int right)

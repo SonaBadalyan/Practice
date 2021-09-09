@@ -124,13 +124,20 @@ class CDLL
 
         if (1 == length)
         {
+            delete head;
             head = nullptr;
+
             return true;
         }
 
         head->prev->next = head->next;
         head->next->prev = head->prev;
+
+        Node* temp = head;
         head = head->next;
+
+        delete temp;
+        temp = nullptr;
 
         --length;
     }
@@ -144,12 +151,19 @@ class CDLL
 
         if (1 == length)
         {
+            delete head;
             head = nullptr;
+
             return true;
         }
 
-        head->prev->prev->next = head;
-        head->prev = head->prev->next;
+        Node* tail = head->prev;
+
+        tail->prev->next = head;
+        head->prev = tail->prev;
+
+        delete tail;
+        tail = nullptr;
 
         --length;
     }
@@ -185,6 +199,9 @@ class CDLL
 
         curr->next = curr->next->next;
         curr->next->prev = curr;
+
+        delete curr;
+        curr = nullptr;
 
         --length;
 
@@ -245,6 +262,22 @@ class CDLL
     int getLength()
     {
         return length;
+    }
+
+    ~CDLL()
+    {
+        if (head)
+        {
+            Node* curr = head;
+
+            while (curr->next != head)
+            {
+                curr = curr->next;
+                delete curr->prev;
+            }
+
+            delete curr;
+        }
     }
 
     private:

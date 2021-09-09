@@ -27,6 +27,11 @@ class RBT
             return add(data, root);
         }
 
+        bool deleteNode(int data)
+        {
+            return deleteNode(data, root);
+        }
+
     private:
 
         void add(int data, Node* startNode)
@@ -163,6 +168,7 @@ class RBT
                         rebalance(grandParent);
                     }
                 }
+                
                 }
             }
         }
@@ -229,6 +235,163 @@ class RBT
             x->parent = y;
 
             return y;
+        }
+
+        bool deleteNode(int data, Node* startNode)
+        {
+            Node* temp = find(startNode, data);
+
+            if (!temp)
+            {
+                return false;
+            }
+
+            if (true == temp->color)
+            {
+                if (!temp->left && !temp->right) 
+                {
+                    if (!temp->parent) 
+                    {
+                        root = temp = nullptr;
+
+                        return true; 
+                    }
+
+                    if (temp->parent->m_data > data)
+                    {
+                        if (false == temp->color) // if we want to delete black node
+                        {
+
+                        }
+
+                        temp->parent->left = nullptr;
+                        return true;
+                    }
+                    if (temp->parent->m_data < data) 
+                    {
+                        if (false == temp->color) // if we want to delete black node
+                        {
+
+                        }
+                         
+                        temp->parent->right = nullptr;
+                        return true;
+                    } 
+                }
+
+                if (temp->left && !temp->right)
+                {
+                    if (temp->parent->left == temp)
+                    {
+
+
+                        temp->parent->left = temp->left; 
+                        temp->left->parent = temp->parent;
+
+
+                        return true;
+                    }
+                    else if (temp->parent->right == temp)
+                    {
+                        temp->parent->right = temp->left;
+                        temp->right->parent = temp->parent;
+
+                        return true;
+                    }
+                }
+
+                if (!temp->left && temp->right)
+                {
+                    if (temp->parent->left == temp)
+                    {
+                        temp->parent->left = temp->right;
+                        temp->left->parent = temp->parent;
+
+                        return true;
+                    }
+                    else if (temp->parent->right == temp) 
+                    {
+                        temp->parent->right = temp->right;
+                        temp->right->parent = temp->parent;
+
+                        return true;
+                    }
+                }
+
+                Node* maxElem = max(temp->left); // inorder predecessor
+
+                temp->m_data = maxElem->m_data;
+
+                if (maxElem->parent->left == maxElem)
+                {
+                    maxElem->parent->left = nullptr;
+                    return true;
+                }
+                else if (maxElem->parent->right == maxElem)
+                {
+                    maxElem->parent->right = nullptr;
+                    return true;
+                }
+
+                return false;
+            }
+        }
+
+        Node* max(Node* startNode)
+        {
+            Node* leftSubtreeMax;
+
+            if (!startNode->left)
+            {
+                leftSubtreeMax = startNode;
+            }
+            else
+            {
+                leftSubtreeMax = max( startNode->left );
+            }
+
+            Node* rightSubtreeMax;
+
+            if (!startNode->right)
+            {
+                rightSubtreeMax = startNode;
+            }
+            else
+            {
+                rightSubtreeMax = max( startNode->right );
+            }
+
+            if (leftSubtreeMax->m_data > rightSubtreeMax->m_data)
+            {
+                return leftSubtreeMax;
+            }
+            else
+            {
+                return rightSubtreeMax;
+            }
+        }
+
+        Node* find(Node* startNode, int data)
+        {
+            if (startNode == nullptr)
+            {
+                return nullptr;
+            }
+
+            if (startNode->m_data == data)
+            {
+                return startNode;
+            }
+            else if (startNode->m_data > data)
+            {
+                return find(startNode->left, data);
+            }
+            else if (startNode->m_data < data)
+            {
+                return find(startNode->right, data);
+            }
+
+            return nullptr;
         }
 
     private:

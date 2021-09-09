@@ -46,6 +46,8 @@ int main ()
     for(size_t i = 0; i < SIZE; ++i)
         std::cout << arr[i] << " ";
     std::cout << std::endl;
+
+    delete[] arr;
     
     return 0;
 }

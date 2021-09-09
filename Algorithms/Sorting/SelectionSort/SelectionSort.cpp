@@ -55,6 +55,7 @@ int main()
         std::cout << arr[i] << " ";
     std::cout << std::endl;
 
+    delete[] arr;
 
     return 0;
 }
