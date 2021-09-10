@@ -246,95 +246,111 @@ class RBT
                 return false;
             }
 
-            if (true == temp->color)
+            Node* parent = temp->parent;
+            Node* rightChild = temp->right;
+            Node* leftChild = temp->left;
+
+            if (!parent)
             {
-                if (!temp->left && !temp->right) 
-                {
-                    if (!temp->parent) 
-                    {
-                        root = temp = nullptr;
-
-                        return true; 
-                    }
-
-                    if (temp->parent->m_data > data)
-                    {
-                        if (false == temp->color) // if we want to delete black node
-                        {
-
-                        }
-
-                        temp->parent->left = nullptr;
-                        return true;
-                    }
-                    if (temp->parent->m_data < data) 
-                    {
-                        if (false == temp->color) // if we want to delete black node
-                        {
-
-                        }
-                         
-                        temp->parent->right = nullptr;
-                        return true;
-                    } 
-                }
-
-                if (temp->left && !temp->right)
-                {
-                    if (temp->parent->left == temp)
-                    {
-
-
-                        temp->parent->left = temp->left; 
-                        temp->left->parent = temp->parent;
-
-
-                        return true;
-                    }
-                    else if (temp->parent->right == temp)
-                    {
-                        temp->parent->right = temp->left;
-                        temp->right->parent = temp->parent;
-
-                        return true;
-                    }
-                }
-
-                if (!temp->left && temp->right)
-                {
-                    if (temp->parent->left == temp)
-                    {
-                        temp->parent->left = temp->right;
-                        temp->left->parent = temp->parent;
-
-                        return true;
-                    }
-                    else if (temp->parent->right == temp) 
-                    {
-                        temp->parent->right = temp->right;
-                        temp->right->parent = temp->parent;
-
-                        return true;
-                    }
-                }
-
-                Node* maxElem = max(temp->left); // inorder predecessor
-
-                temp->m_data = maxElem->m_data;
-
-                if (maxElem->parent->left == maxElem)
-                {
-                    maxElem->parent->left = nullptr;
-                    return true;
-                }
-                else if (maxElem->parent->right == maxElem)
-                {
-                    maxElem->parent->right = nullptr;
-                    return true;
-                }
-
-                return false;
+                // TODO
             }
+            
+            if (!leftChild && !rightChild)
+            {
+                if (!parent) 
+                {
+                    delete root;
+                    root = temp = nullptr;
+
+                    return true; 
+                }
+
+                if (false == temp->color)
+                {
+                    //TODO
+                    // In this case we have leaf node in color black
+                    // we must handle black-black conflict
+                }
+
+                parent->left == temp    ? parent->left = nullptr
+                                        : parent->right = nullptr;
+
+                delete  temp;
+                temp = nullptr;
+                    
+                return true;
+            }
+
+            if ((leftChild && !rightChild) || (!leftChild && rightChild))
+            {
+                Node* parentsChild = nullptr;
+
+                parent->left == temp    ? parentsChild = parent->left
+                                        : parentsChild = parent->right;
+
+                Node* child = nullptr;
+
+                leftChild && !rightChild    ?   child = leftChild
+                                            :   child = rightChild;
+
+                if ((false == temp->color && true == child->color)  || 
+                    (true == temp->color && false == child->color)
+                    )
+                {
+                    temp->m_data = child->m_data;
+
+                    if (child->right)
+                    {
+                        temp->right = child->right;
+                        child->right->parent = temp;
+                    }
+                    if (child->left)
+                    {
+                        temp->left = child->left;
+                        child->left->parent = temp; 
+                    }
+
+                    delete child;
+                    child = nullptr;
+
+                    return true;
+                }
+                else if (false == temp->color && false == child->color)
+                {
+                    //black black conflict
+                }
+                else if (true == temp->color && true == child->color) 
+                {
+                   // As the tree is a red-black tree this case impossible.
+                   // We can`t have a red-red relationship among parent and child.
+                }
+
+            }
+
+            Node* maxElem = max(leftChild); // inorder predecessor
+
+            temp->m_data = maxElem->m_data;
+
+            if (maxElem->parent->right == maxElem && !(maxElem->parent->left == maxElem))
+            {
+                if (false == temp->color) // if we delete the black node
+                {
+
+                }
+
+                if(maxElem->left)
+                {
+                    maxElem->parent->right = maxElem->left;
+                    maxElem->left->parent = maxElem->parent;
+                }
+
+                delete maxElem;
+                maxElem = nullptr;
+
+                return true;
+            }
+
+            return false;
         }
 
         Node* max(Node* startNode)

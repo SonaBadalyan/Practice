@@ -270,7 +270,7 @@ class BST
                 else if (temp->parent->right == temp) // if remove node is right node for it`s parent node
                 {
                     temp->parent->right = temp->left;
-                    temp->right->parent = temp->parent;
+                    temp->left->parent = temp->parent;
 
                     --size;
                     return true;
@@ -282,7 +282,7 @@ class BST
                 if (temp->parent->left == temp) // if remove node is left node for it`s parent node
                 {
                     temp->parent->left = temp->right;
-                    temp->left->parent = temp->parent;
+                    temp->right->parent = temp->parent;
 
                     --size;
                     return true;
@@ -536,42 +536,42 @@ int main()
     //     std::cout << "found" << std::endl;
     // }
 
-    // bst.deleteNode(800);
+    bst.deleteNode(760);
 
-    // bst.print();
+    bst.print();
 
-    BST bst1;
+    // BST bst1;
 
-    bst1.add(500);
-    bst1.add(250);
-    bst1.add(750);
-    bst1.add(800);
-    bst1.add(770);
-    bst1.add(900);
-    bst1.add(830);
-    bst1.add(820);
-    bst1.add(850);
-    bst1.add(950);
-    bst1.add(940);
-    bst1.add(975);
-    bst1.add(760);
-    bst1.add(780);
-    bst1.add(790);
-    bst1.add(765);
-    bst1.add(767);
-    bst1.add(764);
-    bst1.add(763);
+    // bst1.add(500);
+    // bst1.add(250);
+    // bst1.add(750);
+    // bst1.add(800);
+    // bst1.add(770);
+    // bst1.add(900);
+    // bst1.add(830);
+    // bst1.add(820);
+    // bst1.add(850);
+    // bst1.add(950);
+    // bst1.add(940);
+    // bst1.add(975);
+    // bst1.add(760);
+    // bst1.add(780);
+    // bst1.add(790);
+    // bst1.add(765);
+    // bst1.add(767);
+    // bst1.add(764);
+    // bst1.add(763);
 
-    bst1.add(678);
+    // bst1.add(678);
 
-    if (bst == bst1)
-    {
-        std::cout << "Binary search trees are equal." << std::endl;
-    }
-    else if (!(bst == bst1))
-    {
-        std::cout << "Binary search trees are not equal." << std::endl;
-    }
+    // if (bst == bst1)
+    // {
+    //     std::cout << "Binary search trees are equal." << std::endl;
+    // }
+    // else if (!(bst == bst1))
+    // {
+    //     std::cout << "Binary search trees are not equal." << std::endl;
+    // }
 
     return 0;
 

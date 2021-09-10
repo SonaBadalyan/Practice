@@ -409,6 +409,7 @@ class AVL
             {
                 if (!temp->parent)
                 {
+                    delete root;
                     root = temp = nullptr;
                     return true; 
                 }
@@ -417,12 +418,16 @@ class AVL
                 {
                     temp->parent->left = nullptr;
                     checkBalance(temp->parent);
+                    delete temp;
+
                     return true;
                 }
                 if (temp->parent->data < val)
                 {
                     temp->parent->right = nullptr;
                     checkBalance(temp->parent);
+                    delete temp;
+
                     return true;
                 } 
             }
@@ -434,6 +439,8 @@ class AVL
                     temp->parent->left = temp->left; 
                     temp->left->parent = temp->parent;
                     checkBalance(temp->parent);
+                    delete temp;
+
                     return true;
                 }
                 else if (temp->parent->right == temp)
@@ -441,6 +448,8 @@ class AVL
                     temp->parent->right = temp->left;
                     temp->left->parent = temp->parent;
                     checkBalance(temp->parent);
+                    delete temp;
+
                     return true;
                 }
             }
@@ -452,6 +461,8 @@ class AVL
                     temp->parent->left = temp->right;
                     temp->right->parent = temp->parent;
                     checkBalance(temp->parent);
+                    delete temp;
+
                     return true;
                 }
                 else if (temp->parent->right == temp)
@@ -459,6 +470,8 @@ class AVL
                     temp->parent->right = temp->right;
                     temp->right->parent = temp->parent;
                     checkBalance(temp->parent);
+                    delete temp;
+
                     return true;
                 }
             }
@@ -471,12 +484,16 @@ class AVL
             {
                 maxElem->parent->left = nullptr;
                 checkBalance(maxElem->parent);
+                delete maxElem;
+
                 return true;
             }
             else if (maxElem->parent->right == maxElem)
             {
                 maxElem->parent->right = nullptr;
                 checkBalance(maxElem->parent);
+                delete maxElem;
+                
                 return true;
             }
 
