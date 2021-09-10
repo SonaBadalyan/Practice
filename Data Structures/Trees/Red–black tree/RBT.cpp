@@ -297,21 +297,12 @@ class RBT
                     (true == temp->color && false == child->color)
                     )
                 {
-                    temp->m_data = child->m_data;
+                    temp->parent = child;
+                    child->parent = temp->parent;
+                    child->color = false;
 
-                    if (child->right)
-                    {
-                        temp->right = child->right;
-                        child->right->parent = temp;
-                    }
-                    if (child->left)
-                    {
-                        temp->left = child->left;
-                        child->left->parent = temp; 
-                    }
-
-                    delete child;
-                    child = nullptr;
+                    delete temp;
+                    temp = nullptr;
 
                     return true;
                 }
@@ -319,11 +310,11 @@ class RBT
                 {
                     //black black conflict
                 }
-                else if (true == temp->color && true == child->color) 
-                {
-                   // As the tree is a red-black tree this case impossible.
-                   // We can`t have a red-red relationship among parent and child.
-                }
+                // else if (true == temp->color && true == child->color) 
+                // {
+                //    // As the tree is a red-black tree this case impossible.
+                //    // We can`t have a red-red relationship among parent and child.
+                // }
 
             }
 
@@ -331,12 +322,9 @@ class RBT
 
             temp->m_data = maxElem->m_data;
 
-            if (maxElem->parent->right == maxElem && !(maxElem->parent->left == maxElem))
+            if (false == maxElem->color && true == temp->color)
             {
-                if (false == temp->color) // if we delete the black node
-                {
-
-                }
+                temp->color = false;
 
                 if(maxElem->left)
                 {
@@ -350,7 +338,11 @@ class RBT
                 return true;
             }
 
-            return false;
+            if (false == maxElem->color && false == temp->color)
+            {
+                // black black conflict
+            }
+
         }
 
         Node* max(Node* startNode)
