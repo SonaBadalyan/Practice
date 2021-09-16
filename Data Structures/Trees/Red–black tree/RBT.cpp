@@ -249,11 +249,6 @@ class RBT
             Node* parent = temp->parent;
             Node* rightChild = temp->right;
             Node* leftChild = temp->left;
-
-            if (!parent)
-            {
-                // TODO
-            }
             
             if (!leftChild && !rightChild)
             {
@@ -267,18 +262,18 @@ class RBT
 
                 if (false == temp->color)
                 {
-                    //TODO
-                    // In this case we have leaf node in color black
-                    // we must handle black-black conflict
+                    solveConflict(parent);
                 }
+                else
+                {
+                    parent->left == temp    ? parent->left = nullptr
+                                            : parent->right = nullptr;
 
-                parent->left == temp    ? parent->left = nullptr
-                                        : parent->right = nullptr;
-
-                delete  temp;
-                temp = nullptr;
-                    
-                return true;
+                    delete  temp;
+                    temp = nullptr;
+                        
+                    return true;
+                }
             }
 
             if ((leftChild && !rightChild) || (!leftChild && rightChild))
@@ -308,39 +303,105 @@ class RBT
                 }
                 else if (false == temp->color && false == child->color)
                 {
-                    //black black conflict
+                    solveConflict(parent);
                 }
-                // else if (true == temp->color && true == child->color) 
-                // {
-                //    // As the tree is a red-black tree this case impossible.
-                //    // We can`t have a red-red relationship among parent and child.
-                // }
-
             }
 
-            Node* maxElem = max(leftChild); // inorder predecessor
+            Node* maxElem = max(leftChild);
 
             temp->m_data = maxElem->m_data;
 
-            if (false == maxElem->color && true == temp->color)
+            deleteNode(maxElem->m_data, maxElem);
+
+        }
+
+        void solveConflict(Node* doubleBlackNode)
+        {
+            if (doubleBlackNode == root)
             {
-                temp->color = false;
-
-                if(maxElem->left)
-                {
-                    maxElem->parent->right = maxElem->left;
-                    maxElem->left->parent = maxElem->parent;
-                }
-
-                delete maxElem;
-                maxElem = nullptr;
-
-                return true;
+                return;
             }
 
-            if (false == maxElem->color && false == temp->color)
+            Node* parent = doubleBlackNode->parent;
+            Node* sibling = nullptr;
+
+            doubleBlackNode == parent->left ?   sibling = parent->right :
+                                                sibling = parent->left;
+
+            if (!sibling)
             {
-                // black black conflict
+
+            }
+
+            if  (false == sibling->color && 
+                (sibling->left && true == sibling->left->color ||
+                 sibling->right && true == sibling->right->color ))
+            {
+
+                if ((parent->left == sibling && true == sibling->left->color) ||
+                    (true == sibling->left->color && true == sibling->right->color))
+                {
+                    // Left left roation 
+                    rightRotate(parent);   
+                }
+
+                if (parent->left == sibling && true == sibling->right->color)
+                {
+                    // Left right roation 
+                    parent->left = leftRotate(parent->left);
+                    rightRotate(parent); 
+                }
+
+                if ((parent->right == sibling && true == sibling->right->color) ||
+                    (true == sibling->right->color && true == sibling->left->color))
+                {
+                    // Right left roation 
+                    parent->right = rightRotate(parent->right);
+                    leftRotate(parent);
+                }
+
+                if (parent->right == sibling && true == sibling->left->color)
+                {
+                    // Right right roation 
+                    leftRotate(parent);
+                }
+ 
+            }
+
+            if  (false == sibling->color &&
+                ((!sibling->left) || (sibling->left && false == sibling->left->color)) &&
+                ((sibling->right) || (sibling->right && false == sibling->right->color))
+                )
+            {
+                sibling->color = true;
+
+                if (true == parent->color)
+                {
+                    parent->color = false;
+                }
+                else
+                {
+                    solveConflict(parent);
+                }
+            }
+
+            if (true == sibling->color)
+            {
+                if (false == parent->color)
+                {
+                    parent->color = true;
+                    sibling->color = false;
+                }
+
+                if (parent->left == sibling)
+                {
+                    rightRotate(parent);
+                }
+
+                if (parent->right == sibling)
+                {
+                    leftRotate(parent);
+                }             
             }
 
         }
@@ -422,7 +483,8 @@ int main()
     rbt.insert(2);
     rbt.insert(1);
     rbt.insert(70);
-    
+
+    rbt.deleteNode(25);
 
     return 0;
 }
