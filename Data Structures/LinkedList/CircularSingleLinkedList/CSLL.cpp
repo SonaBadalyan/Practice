@@ -118,7 +118,8 @@ class CSLL
             }
 
             curr->next = head->next;
-            head = head->next;
+            delete head;
+            head = curr->next;
 
         }
 
@@ -154,6 +155,9 @@ class CSLL
             }
 
             prev->next = curr->next;
+
+            delete curr;
+            curr = nullptr;
         }
 
         bool removeBack()
@@ -169,6 +173,9 @@ class CSLL
             {
                 curr = curr->next;
             }
+
+            delete curr->next;
+            curr->next = nullptr;
 
             curr->next = head;
         }
@@ -237,6 +244,22 @@ class CSLL
                 list.insertBack(s.top());
                 s.pop();
             }
+        }
+
+        ~CSLL()
+        {
+            Node* curr = head;
+            Node* prev = head;
+
+            while(curr->next != head)
+            {
+                prev = curr;
+                curr = curr->next;
+                delete prev;
+                prev = nullptr;
+            }
+
+            delete curr;
         }
 
     private:

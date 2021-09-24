@@ -192,11 +192,13 @@ class DoubleLikedList
 
             if (1 == getLength())
             {
+                delete head;
                 head = nullptr;
                 return true;
             }
 
             head = head->next;
+            delete head->prev;
             head->prev = nullptr;
             return true;
         }
@@ -232,6 +234,8 @@ class DoubleLikedList
             
             curr->prev->next = curr->next;
             curr->next->prev = curr->prev;
+            delete curr;
+            curr = nullptr;
         }
 
         bool removeBack()
@@ -248,6 +252,7 @@ class DoubleLikedList
                 curr = curr->next;
             }
 
+            delete curr->prev->next;
             curr->prev->next = nullptr;
         }
 
@@ -364,6 +369,15 @@ class DoubleLikedList
             }
 
             return size;
+        }
+
+        ~DoubleLikedList()
+        {
+            while(head->next)
+            {
+                head = head->next;
+                delete head->prev;
+            }
         }
 
     private:

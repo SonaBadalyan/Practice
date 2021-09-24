@@ -399,13 +399,10 @@ class DoubleLinkedList
 
     ~DoubleLinkedList()
     {
-        Node *curr = head;
-
-        while ( curr != nullptr )
+        while(head)
         {
-            Node* next = curr->next;
-            delete curr;
-            curr = next;
+            delete head->prev;
+            head = head->next;
         }
     }
 

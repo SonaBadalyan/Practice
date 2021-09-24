@@ -32,6 +32,12 @@ class RBT
             return deleteNode(data, root);
         }
 
+        ~RBT()
+        {
+            destroy(root);
+
+        }
+
     private:
 
         void add(int data, Node* startNode)
@@ -463,6 +469,16 @@ class RBT
             return nullptr;
         }
 
+        void destroy(Node* startNode)
+        {
+            if (startNode)
+            {
+                destroy(startNode->left);
+                destroy(startNode->right);
+                delete startNode;
+            }
+        }
+
     private:
         Node* root = nullptr;
 };
@@ -484,7 +500,7 @@ int main()
     rbt.insert(1);
     rbt.insert(70);
 
-    rbt.deleteNode(25);
+    //rbt.deleteNode(25);
 
     return 0;
 }
