@@ -261,6 +261,7 @@ class DoubleLinkedList
                 curr->prev->next = curr->next;
                 curr->next->prev = curr->prev;
                 delete curr;
+                curr = nullptr;
                 break;
             }
 
@@ -300,12 +301,12 @@ class DoubleLinkedList
         if ( !empty() )
         {
             Node *new_tail = tail;
-            new_tail = tail;
 
             tail = tail->prev;
             tail->next = nullptr;
 
             delete new_tail;
+            new_tail = nullptr;
         }
     }
 
@@ -339,12 +340,12 @@ class DoubleLinkedList
         if ( !empty() )
         {
             Node *new_head = head;
-            new_head = head;
 
             head = head->next;
             head->prev = nullptr;
 
             delete new_head;
+            new_head = nullptr;
         }
     }
 
@@ -399,11 +400,17 @@ class DoubleLinkedList
 
     ~DoubleLinkedList()
     {
-        while(head)
+        if(!head)
         {
-            delete head->prev;
-            head = head->next;
+            return;
         }
+        
+        while(head->next)
+        {
+            head = head->next;
+            delete head->prev;   
+        }
+        delete head;
     }
 
     private:
