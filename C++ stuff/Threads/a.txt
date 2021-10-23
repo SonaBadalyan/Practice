@@ -1,0 +1,10 @@
+unit, integration system
+positive negative 
+manual automation
+security - > penetration testing (port scan, sql injection, xss attack)
+stabilutyan ... 24/7     
+stress testing 
+white box, black box, grey box
+regression test 
+//java selenium framework
+//junit 
