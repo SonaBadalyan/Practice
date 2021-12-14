@@ -1,0 +1,5 @@
+#ifndef SMART_POINTER_HPP
+#define SMART_POINTER_HPP
+
+
+#endif // SMART_POINTER_HPP
